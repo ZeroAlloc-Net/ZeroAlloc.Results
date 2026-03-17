@@ -75,19 +75,25 @@ var response = await GetUser(id)
 
 ## Performance
 
-All core operations produce **zero heap allocations** (.NET 9.0.14, i9-12900HK, BenchmarkDotNet v0.13.12).
+All core operations produce **zero heap allocations** (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12).
 
-| Operation | Mean | Allocated |
-|-----------|-----:|----------:|
-| `Result<int,string>.Success(42)` | 0.26 ns | **0 B** |
-| `Result<int,string>.Failure("err")` | 0.35 ns | **0 B** |
-| `.Map(x => x * 2)` | 1.57 ns | **0 B** |
-| `.Bind(x => Success(x.ToString()))` | 7.68 ns | **0 B** |
-| `.Match(v => v, _ => -1)` | 2.27 ns | **0 B** |
-| `Maybe<int>.Some(42)` | 3.47 ns | **0 B** |
+| Method | Mean | Allocated |
+|--------|-----:|----------:|
+| `Result<int,string>.Success(42)` | 0.25 ns | **0 B** |
+| `Result<int,string>.Failure("err")` | 0.43 ns | **0 B** |
+| `.Map(x => x * 2)` | 2.92 ns | **0 B** |
+| `.Bind(x => Success(x.ToString()))` | 8.81 ns | **0 B** |
+| `.Match(v => v, _ => -1)` | 2.02 ns | **0 B** |
+| `Maybe<int>.Some(42)` | 3.66 ns | **0 B** |
 | `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
 
-See [docs/performance.md](docs/performance.md) for the full head-to-head comparison against CSharpFunctionalExtensions.
+Compare directly against CSharpFunctionalExtensions — all CFE operations allocate a class instance per call:
+
+```bash
+dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
+```
+
+See [docs/performance.md](docs/performance.md) for the full benchmark analysis and zero-allocation design explanation.
 
 ## Documentation
 

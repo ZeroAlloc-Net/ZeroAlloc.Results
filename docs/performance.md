@@ -56,20 +56,26 @@ All async combinators return `ValueTask<Result<T,E>>`, avoiding the `Task` alloc
 
 ## Benchmark Results
 
-**ZeroAlloc.Results alone** (.NET 9.0.14, BenchmarkDotNet v0.13.12):
+Environment: Windows 11, Unknown processor, .NET 9.0.14 (RyuJIT AVX2), BenchmarkDotNet v0.13.12.
 
-| Operation | Mean | Allocated |
-|-----------|-----:|----------:|
-| `Result<int,string>.Success(42)` | 0.26 ns | **0 B** |
-| `Result<int,string>.Failure("err")` | 0.35 ns | **0 B** |
-| `.Map(x => x * 2)` | 1.57 ns | **0 B** |
-| `.Bind(x => Success(x.ToString()))` | 7.68 ns | **0 B** |
-| `.Match(v => v, _ => -1)` | 2.27 ns | **0 B** |
-| `Maybe<int>.Some(42)` | 3.47 ns | **0 B** |
-| `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
+**ZeroAlloc.Results — zero allocation confirmed:**
 
-**Head-to-head vs CSharpFunctionalExtensions** (same machine):
+| Method | Mean | Error | StdDev | Allocated |
+|--------|-----:|------:|-------:|----------:|
+| `Create_Success` | 0.25 ns | ±0.09 ns | ±0.28 ns | **0 B** |
+| `Create_Failure` | 0.43 ns | ±0.11 ns | ±0.34 ns | **0 B** |
+| `Map_Success` | 2.92 ns | ±0.40 ns | ±1.17 ns | **0 B** |
+| `Bind_Chain` | 8.81 ns | ±0.60 ns | ±1.71 ns | **0 B** |
+| `Match_Success` | 2.02 ns | ±0.34 ns | ±1.00 ns | **0 B** |
+| `Maybe_Some` | 3.66 ns | ±0.31 ns | ±0.91 ns | **0 B** |
+| `UnitResult_Success` | 0.35 ns | ±0.13 ns | ±0.38 ns | **0 B** |
 
-> Run `dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"` to reproduce.
+**Head-to-head vs CSharpFunctionalExtensions:**
 
-All ZeroAlloc.Results operations show `Allocated = -`. CFE operations allocate a new class instance per call.
+Run the comparison benchmark yourself:
+
+```bash
+dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
+```
+
+All `ZA_*` variants show `Allocated = -`. All `CFE_*` variants allocate a new class instance per call — a minimum of ~32–48 bytes per operation on the managed heap, triggering Gen0 GC under load.
