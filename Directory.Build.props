@@ -14,8 +14,8 @@
     <Description>A zero-allocation, no-boxing Result&lt;T,E&gt; library for .NET with full CSharpFunctionalExtensions API parity.</Description>
     <PackageTags>result;railway-oriented;functional;zero-allocation;discriminated-union</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>icon.png</PackageIcon>
     <Copyright>Copyright (c) Marcel Roozekrans</Copyright>
+    <VersionPrefix>0.1.0</VersionPrefix>
   </PropertyGroup>
   <ItemGroup Condition="'$(IsPackable)' != 'false'">
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
