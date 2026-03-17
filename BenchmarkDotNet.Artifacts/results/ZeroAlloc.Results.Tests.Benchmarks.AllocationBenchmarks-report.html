@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>ZeroAlloc.Results.Tests.Benchmarks.AllocationBenchmarks-20260317-213936</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.26200.8037)
+Unknown processor
+.NET SDK 10.0.104
+  [Host]     : .NET 9.0.14 (9.0.1426.11910), X64 RyuJIT AVX2
+  DefaultJob : .NET 9.0.14 (9.0.1426.11910), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method      </th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Create_Success</td><td>0.2573 ns</td><td>0.1101 ns</td><td>0.3247 ns</td><td>0.0467 ns</td><td>-</td>
+</tr><tr><td>Create_Failure</td><td>0.3494 ns</td><td>0.0422 ns</td><td>0.1177 ns</td><td>0.3329 ns</td><td>-</td>
+</tr><tr><td>Map_Success</td><td>1.5741 ns</td><td>0.1154 ns</td><td>0.3178 ns</td><td>1.5058 ns</td><td>-</td>
+</tr><tr><td>Bind_Chain</td><td>7.6801 ns</td><td>0.7018 ns</td><td>2.0692 ns</td><td>7.0595 ns</td><td>-</td>
+</tr><tr><td>Match_Success</td><td>2.2700 ns</td><td>0.6099 ns</td><td>1.7983 ns</td><td>2.4916 ns</td><td>-</td>
+</tr><tr><td>Maybe_Some</td><td>3.4659 ns</td><td>0.2167 ns</td><td>0.6321 ns</td><td>3.4697 ns</td><td>-</td>
+</tr><tr><td>UnitResult_Success</td><td>0.3485 ns</td><td>0.0927 ns</td><td>0.2690 ns</td><td>0.2767 ns</td><td>-</td>
+</tr></tbody></table>
+</body>
+</html>
