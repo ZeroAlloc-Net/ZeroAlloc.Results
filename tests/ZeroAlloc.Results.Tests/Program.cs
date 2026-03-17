@@ -1,4 +1,9 @@
 using BenchmarkDotNet.Running;
 using ZeroAlloc.Results.Tests.Benchmarks;
 
-BenchmarkRunner.Run<AllocationBenchmarks>();
+var switcher = BenchmarkSwitcher.FromTypes([
+    typeof(AllocationBenchmarks),
+    typeof(CfeComparisonBenchmarks)
+]);
+
+switcher.RunAll();
