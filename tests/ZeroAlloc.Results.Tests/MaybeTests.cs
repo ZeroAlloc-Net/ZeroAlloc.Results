@@ -48,4 +48,28 @@ public class MaybeTests
         Assert.Equal(0, maybe.GetValueOrDefault());
         Assert.Equal(99, maybe.GetValueOrDefault(99));
     }
+
+    [Fact]
+    public void HasNoValue_OnSome_False()
+    {
+        Assert.False(Maybe<int>.Some(1).HasNoValue);
+    }
+
+    [Fact]
+    public void HasNoValue_OnNone_True()
+    {
+        Assert.True(Maybe<int>.None.HasNoValue);
+    }
+
+    [Fact]
+    public void ToString_Some_ReturnsSomeWithValue()
+    {
+        Assert.Equal("Some(42)", Maybe<int>.Some(42).ToString());
+    }
+
+    [Fact]
+    public void ToString_None_ReturnsNone()
+    {
+        Assert.Equal("None", Maybe<int>.None.ToString());
+    }
 }

@@ -33,4 +33,24 @@ public class UnitResultTests
     {
         Assert.True(typeof(UnitResult<string>).IsValueType);
     }
+
+    [Fact]
+    public void ImplicitConversion_FromError_IsFailure()
+    {
+        UnitResult<string> result = "typed error";
+        Assert.True(result.IsFailure);
+        Assert.Equal("typed error", result.Error);
+    }
+
+    [Fact]
+    public void ToString_Success_ReturnsSuccess()
+    {
+        Assert.Equal("Success", UnitResult<string>.Success().ToString());
+    }
+
+    [Fact]
+    public void ToString_Failure_ReturnsFailureWithError()
+    {
+        Assert.Equal("Failure(bad)", UnitResult<string>.Failure("bad").ToString());
+    }
 }

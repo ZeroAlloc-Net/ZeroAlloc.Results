@@ -53,4 +53,15 @@ public class ResultLinqExtensionsTests
         Assert.True(result.IsFailure);
         Assert.Equal("no user", result.Error);
     }
+
+    [Fact]
+    public void SelectMany_SecondBindFailure_PropagatesError()
+    {
+        var result =
+            from user in Result<string, string>.Success("alice")
+            from greeting in Result<string, string>.Failure("greeting failed")
+            select greeting;
+        Assert.True(result.IsFailure);
+        Assert.Equal("greeting failed", result.Error);
+    }
 }

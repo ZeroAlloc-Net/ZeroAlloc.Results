@@ -58,4 +58,16 @@ public class Result2Tests
     {
         Assert.True(typeof(Result<int, string>).IsValueType);
     }
+
+    [Fact]
+    public void ToString_Success_ReturnsSuccessWithValue()
+    {
+        Assert.Equal("Success(42)", Result<int, string>.Success(42).ToString());
+    }
+
+    [Fact]
+    public void ToString_Failure_ReturnsFailureWithError()
+    {
+        Assert.Equal("Failure(oops)", Result<int, string>.Failure("oops").ToString());
+    }
 }

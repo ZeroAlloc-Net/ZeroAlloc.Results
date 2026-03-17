@@ -57,4 +57,28 @@ public class ResultExtensionsEnsureCombineTests
         Assert.True(combined.IsFailure);
         Assert.Equal("first error", combined.Error);
     }
+
+    [Fact]
+    public void Combine_EmptySpan_ReturnsSuccess()
+    {
+        var combined = ResultExtensions.Combine<int, string>(ReadOnlySpan<Result<int, string>>.Empty);
+        Assert.True(combined.IsSuccess);
+    }
+
+    [Fact]
+    public void Combine_SingleSuccess_ReturnsSuccess()
+    {
+        Span<Result<int, string>> results = [Result<int, string>.Success(1)];
+        var combined = ResultExtensions.Combine<int, string>(results);
+        Assert.True(combined.IsSuccess);
+    }
+
+    [Fact]
+    public void Combine_SingleFailure_ReturnsFailure()
+    {
+        Span<Result<int, string>> results = [Result<int, string>.Failure("only error")];
+        var combined = ResultExtensions.Combine<int, string>(results);
+        Assert.True(combined.IsFailure);
+        Assert.Equal("only error", combined.Error);
+    }
 }
