@@ -10,16 +10,18 @@ sidebar_position: 6
 
 ZeroAlloc.Results is built for code paths where Result overhead is measurable. This page explains why existing libraries allocate and how this library eliminates it.
 
-## Why Result Libraries Usually Allocate
+## Why Most Result Libraries Allocate
 
-Libraries like CSharpFunctionalExtensions use class-based types:
+Older and simpler Result libraries use class-based types:
 
 ```csharp
-// CFE internally — Result<T, E> is a class
+// Class-based Result — allocates on every call
 public class Result<T, E> { ... }
 ```
 
 Every `Result.Success(...)` call allocates a new object on the heap. Under load, GC minor collections become frequent.
+
+CSharpFunctionalExtensions 3.x switched to structs as well, so both CFE 3.x and ZeroAlloc.Results are zero-allocation. The performance difference comes from struct layout complexity: CFE uses nullable value fields and additional bookkeeping, while ZeroAlloc.Results uses the minimal three-field layout.
 
 ## How ZeroAlloc.Results Eliminates Allocation
 
@@ -70,12 +72,23 @@ Environment: Windows 11, Unknown processor, .NET 9.0.14 (RyuJIT AVX2), Benchmark
 | `Maybe_Some` | 3.66 ns | ±0.31 ns | ±0.91 ns | **0 B** |
 | `UnitResult_Success` | 0.35 ns | ±0.13 ns | ±0.38 ns | **0 B** |
 
-**Head-to-head vs CSharpFunctionalExtensions:**
+**Head-to-head vs CSharpFunctionalExtensions 3.7.0:**
+
+Environment: Windows 11, Unknown processor, .NET 9.0.14 (RyuJIT AVX2), BenchmarkDotNet v0.13.12.
+
+| Category | ZA Mean | CFE Mean | ZA Allocated | CFE Allocated | Ratio |
+|----------|--------:|--------:|:------------:|:-------------:|------:|
+| `Create_Success` | 0.33 ns | 2.89 ns | **0 B** | **0 B** | 8.7× faster |
+| `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** | **0 B** | 4.8× faster |
+| `Map` | 1.09 ns | 1.48 ns | **0 B** | **0 B** | 1.4× faster |
+| `Bind` | 5.05 ns | 4.69 ns | **0 B** | **0 B** | comparable |
+| `Match` | 0.37 ns | 0.68 ns | **0 B** | **0 B** | 1.9× faster |
+| `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **0 B** | **0 B** | 1.1× faster |
+
+CFE 3.x is also struct-based and zero-allocation. ZeroAlloc.Results is faster on creation (up to 8.7×) and lookup due to its minimal three-field layout (`bool _isSuccess`, `T _value`, `E _error`) vs CFE's additional nullable bookkeeping.
 
 Run the comparison benchmark yourself:
 
 ```bash
 dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
 ```
-
-All `ZA_*` variants show `Allocated = -`. All `CFE_*` variants allocate a new class instance per call — a minimum of ~32–48 bytes per operation on the managed heap, triggering Gen0 GC under load.

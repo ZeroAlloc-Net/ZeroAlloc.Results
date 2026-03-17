@@ -87,7 +87,17 @@ All core operations produce **zero heap allocations** (Windows 11, .NET 9.0.14, 
 | `Maybe<int>.Some(42)` | 3.66 ns | **0 B** |
 | `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
 
-Compare directly against CSharpFunctionalExtensions — all CFE operations allocate a class instance per call:
+Head-to-head vs CSharpFunctionalExtensions 3.7.0 (also struct-based, also zero-alloc):
+
+| Category | ZA Mean | CFE Mean | Ratio |
+|----------|--------:|--------:|------:|
+| `Create_Success` | 0.33 ns | 2.89 ns | **8.7× faster** |
+| `Create_Failure` | 0.30 ns | 1.44 ns | **4.8× faster** |
+| `Map` | 1.09 ns | 1.48 ns | **1.4× faster** |
+| `Match` | 0.37 ns | 0.68 ns | **1.9× faster** |
+| `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **1.1× faster** |
+
+Both libraries allocate **0 B**. ZeroAlloc.Results is faster due to its minimal three-field struct layout. See [docs/performance.md](docs/performance.md) for full analysis.
 
 ```bash
 dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
