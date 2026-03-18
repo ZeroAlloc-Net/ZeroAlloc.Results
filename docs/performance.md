@@ -71,3 +71,20 @@ Environment: Windows 11, Unknown processor, .NET 9.0.14 (RyuJIT AVX2), Benchmark
 | `Maybe_Some` | 3.66 ns | ±0.31 ns | ±0.91 ns | **0 B** |
 | `UnitResult_Success` | 0.35 ns | ±0.13 ns | ±0.38 ns | **0 B** |
 
+**Head-to-head vs a popular Result library:**
+
+| Category | ZeroAlloc.Results | Other library | Allocated | Ratio |
+|----------|------------------:|--------------:|:---------:|------:|
+| `Create_Success` | 0.33 ns | 2.89 ns | **0 B** both | 8.7× faster |
+| `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** both | 4.8× faster |
+| `Map` | 1.09 ns | 1.48 ns | **0 B** both | 1.4× faster |
+| `Bind` | 5.05 ns | 4.69 ns | **0 B** both | comparable |
+| `Match` | 0.37 ns | 0.68 ns | **0 B** both | 1.9× faster |
+| `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **0 B** both | 1.1× faster |
+
+Run the comparison benchmark yourself:
+
+```bash
+dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
+```
+

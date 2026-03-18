@@ -87,6 +87,16 @@ All core operations produce **zero heap allocations** (Windows 11, .NET 9.0.14, 
 | `Maybe<int>.Some(42)` | 3.66 ns | **0 B** |
 | `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
 
+Head-to-head against a popular Result library (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12):
+
+| Category | ZeroAlloc.Results | Other | Allocated | Ratio |
+|----------|------------------:|------:|:---------:|------:|
+| `Create_Success` | 0.33 ns | 2.89 ns | **0 B** both | **8.7× faster** |
+| `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** both | **4.8× faster** |
+| `Map` | 1.09 ns | 1.48 ns | **0 B** both | **1.4× faster** |
+| `Match` | 0.37 ns | 0.68 ns | **0 B** both | **1.9× faster** |
+| `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **0 B** both | **1.1× faster** |
+
 See [docs/performance.md](docs/performance.md) for the full benchmark analysis and zero-allocation design explanation.
 
 ## Documentation
