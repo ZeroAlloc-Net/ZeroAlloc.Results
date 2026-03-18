@@ -71,9 +71,9 @@ Environment: Windows 11, Unknown processor, .NET 9.0.14 (RyuJIT AVX2), Benchmark
 | `Maybe_Some` | 3.66 ns | ±0.31 ns | ±0.91 ns | **0 B** |
 | `UnitResult_Success` | 0.35 ns | ±0.13 ns | ±0.38 ns | **0 B** |
 
-**Head-to-head vs a popular Result library:**
+**Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions) 3.7.0:**
 
-| Category | ZeroAlloc.Results | Other library | Allocated | Ratio |
+| Category | ZeroAlloc.Results | CSharpFunctionalExtensions | Allocated | Ratio |
 |----------|------------------:|--------------:|:---------:|------:|
 | `Create_Success` | 0.33 ns | 2.89 ns | **0 B** both | 8.7× faster |
 | `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** both | 4.8× faster |

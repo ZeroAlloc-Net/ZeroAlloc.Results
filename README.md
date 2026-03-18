@@ -87,9 +87,9 @@ All core operations produce **zero heap allocations** (Windows 11, .NET 9.0.14, 
 | `Maybe<int>.Some(42)` | 3.66 ns | **0 B** |
 | `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
 
-Head-to-head against a popular Result library (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12):
+Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions) 3.7.0 (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12):
 
-| Category | ZeroAlloc.Results | Other | Allocated | Ratio |
+| Category | ZeroAlloc.Results | CSharpFunctionalExtensions | Allocated | Ratio |
 |----------|------------------:|------:|:---------:|------:|
 | `Create_Success` | 0.33 ns | 2.89 ns | **0 B** both | **8.7× faster** |
 | `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** both | **4.8× faster** |

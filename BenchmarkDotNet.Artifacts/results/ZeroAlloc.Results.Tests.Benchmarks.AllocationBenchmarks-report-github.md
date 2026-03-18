@@ -10,10 +10,10 @@ Unknown processor
 ```
 | Method             | Mean      | Error     | StdDev    | Median    | Allocated |
 |------------------- |----------:|----------:|----------:|----------:|----------:|
-| Create_Success     | 0.2573 ns | 0.1101 ns | 0.3247 ns | 0.0467 ns |         - |
-| Create_Failure     | 0.3494 ns | 0.0422 ns | 0.1177 ns | 0.3329 ns |         - |
-| Map_Success        | 1.5741 ns | 0.1154 ns | 0.3178 ns | 1.5058 ns |         - |
-| Bind_Chain         | 7.6801 ns | 0.7018 ns | 2.0692 ns | 7.0595 ns |         - |
-| Match_Success      | 2.2700 ns | 0.6099 ns | 1.7983 ns | 2.4916 ns |         - |
-| Maybe_Some         | 3.4659 ns | 0.2167 ns | 0.6321 ns | 3.4697 ns |         - |
-| UnitResult_Success | 0.3485 ns | 0.0927 ns | 0.2690 ns | 0.2767 ns |         - |
+| Create_Success     | 0.3630 ns | 0.0448 ns | 0.1286 ns | 0.3387 ns |         - |
+| Create_Failure     | 0.1575 ns | 0.0461 ns | 0.1285 ns | 0.1228 ns |         - |
+| Map_Success        | 1.1308 ns | 0.0620 ns | 0.1579 ns | 1.0850 ns |         - |
+| Bind_Chain         | 5.0606 ns | 0.1404 ns | 0.3747 ns | 4.9803 ns |         - |
+| Match_Success      | 0.7729 ns | 0.0980 ns | 0.2860 ns | 0.6862 ns |         - |
+| Maybe_Some         | 2.4298 ns | 0.0871 ns | 0.1949 ns | 2.3894 ns |         - |
+| UnitResult_Success | 0.0453 ns | 0.0320 ns | 0.0646 ns | 0.0001 ns |         - |
