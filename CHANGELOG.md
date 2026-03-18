@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v0.1.1...v0.1.2) (2026-03-18)
+
+
+### Documentation
+
+* anonymise CFE references, add NuGet icon, multi-target net8/9/10 ([a26af0e](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/a26af0e1b94ddf40b7db7b2c18a106d8796166a0))
+* restore CSharpFunctionalExtensions name in benchmark comparisons ([11599f9](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/11599f9dade5a522bd8427a15c2c5c89856bbb41))
+
 ## [0.1.1](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v0.1.0...v0.1.1) (2026-03-18)
 
 
