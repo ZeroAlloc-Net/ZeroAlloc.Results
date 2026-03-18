@@ -26,7 +26,7 @@ Use when an operation either succeeds or fails with a plain message and there is
 
 ## Result\<T\>
 
-Success with a value of type `T`, failure with a `string` error. The most commonly used type — equivalent to CFE's `Result<T>`.
+Success with a value of type `T`, failure with a `string` error. The most commonly used type.
 
 ```csharp
 Result<User> user = Result<User>.Success(new User("alice"));
