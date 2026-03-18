@@ -4,7 +4,7 @@
 [![Build](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/actions/workflows/ci.yml/badge.svg)](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-ZeroAlloc.Results is a zero-allocation, no-boxing `Result<T, E>` library for .NET 9 with full [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions) API parity. All types are `readonly struct` — no heap allocation, no boxing, no GC pressure.
+ZeroAlloc.Results is a zero-allocation, no-boxing `Result<T, E>` library for .NET 9. All types are `readonly struct` — no heap allocation, no boxing, no GC pressure.
 
 ## Install
 
@@ -87,11 +87,15 @@ All core operations produce **zero heap allocations** (Windows 11, .NET 9.0.14, 
 | `Maybe<int>.Some(42)` | 3.66 ns | **0 B** |
 | `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
 
-Compare directly against CSharpFunctionalExtensions — all CFE operations allocate a class instance per call:
+Head-to-head against a popular Result library (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12):
 
-```bash
-dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
-```
+| Category | ZeroAlloc.Results | Other | Allocated | Ratio |
+|----------|------------------:|------:|:---------:|------:|
+| `Create_Success` | 0.33 ns | 2.89 ns | **0 B** both | **8.7× faster** |
+| `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** both | **4.8× faster** |
+| `Map` | 1.09 ns | 1.48 ns | **0 B** both | **1.4× faster** |
+| `Match` | 0.37 ns | 0.68 ns | **0 B** both | **1.9× faster** |
+| `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **0 B** both | **1.1× faster** |
 
 See [docs/performance.md](docs/performance.md) for the full benchmark analysis and zero-allocation design explanation.
 
@@ -104,8 +108,7 @@ See [docs/performance.md](docs/performance.md) for the full benchmark analysis a
 | [Combinators](docs/combinators.md) | Map, Bind, Match, Tap, Ensure, Combine |
 | [Async](docs/async.md) | ValueTask async variants for all combinators |
 | [LINQ](docs/linq.md) | Query syntax with Select and SelectMany |
-| [Performance](docs/performance.md) | Zero-alloc design and benchmark results vs CFE |
-| [Migration from CFE](docs/migration-from-cfe.md) | Drop-in migration guide from CSharpFunctionalExtensions |
+| [Performance](docs/performance.md) | Zero-alloc design and benchmark results |
 
 ## License
 
