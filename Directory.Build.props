@@ -8,7 +8,7 @@
     <Authors>Marcel Roozekrans</Authors>
     <Company>Marcel Roozekrans</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/ZeroAlloc-Net/ZeroAlloc.Results</PackageProjectUrl>
+    <PackageProjectUrl>https://results.zeroalloc.net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ZeroAlloc-Net/ZeroAlloc.Results</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>A zero-allocation, no-boxing Result&lt;T,E&gt; library for .NET with full CSharpFunctionalExtensions API parity.</Description>
