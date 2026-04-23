@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.5](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v0.1.4...v0.1.5) (2026-04-23)
+
+
+### Performance
+
+* add BenchmarkDotNet project with Result vs throw/catch comparison ([#17](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/17)) ([58baafa](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/58baafa2f97ba2d89c508f91409aa4440f3e4e28))
+
+
+### Documentation
+
+* reference new standalone Result-vs-exception benchmark project ([#19](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/19)) ([0e77662](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/0e7766239182078b2048ffe96357ee3eed871a42))
+
 ## [0.1.4](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v0.1.3...v0.1.4) (2026-03-19)
 
 
