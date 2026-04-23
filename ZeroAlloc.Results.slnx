@@ -2,6 +2,9 @@
   <Folder Name="/src/">
     <Project Path="src/ZeroAlloc.Results/ZeroAlloc.Results.csproj" />
   </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/ZeroAlloc.Results.AotSmoke/ZeroAlloc.Results.AotSmoke.csproj" />
+  </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/ZeroAlloc.Results.Tests/ZeroAlloc.Results.Tests.csproj" />
   </Folder>
