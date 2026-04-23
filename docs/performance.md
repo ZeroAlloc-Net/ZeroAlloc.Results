@@ -88,3 +88,18 @@ Run the comparison benchmark yourself:
 dotnet run --project tests/ZeroAlloc.Results.Tests -c Release --filter "*CfeComparisonBenchmarks*"
 ```
 
+## Result vs throw/catch
+
+A separate standalone benchmarks project at [benchmarks/ZeroAlloc.Results.Benchmarks](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/tree/main/benchmarks/ZeroAlloc.Results.Benchmarks) compares the `Result<T, E>` failure path against `throw/catch` propagation.
+
+The setup is a tight loop dividing by `i % 3` (one-in-three are zero-divides). In the throwing variant, every third iteration raises and catches a `DivideByZeroException`; in the Result variant, every third returns `Result<int, string>.Failure("div by zero")`.
+
+```bash
+dotnet run --project benchmarks/ZeroAlloc.Results.Benchmarks -c Release --filter "*"
+```
+
+What to watch:
+
+- **Allocated column**: the Result row must read `0 B/op`. The throw/catch row allocates the exception instance plus its captured stack trace — typically 200+ bytes per raise
+- **Ratio column**: even a single exception-propagation cycle runs several orders of magnitude slower than the Result path
+
