@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v0.1.6...v1.0.0) (2026-04-28)
+
+
+### Miscellaneous
+
+* **release:** promote to 1.0.0 stability milestone ([e1ef1d4](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/e1ef1d4c5fbe8bdf633ccedee0b7dcaa18063817))
+
 ## 1.0.0
 
 Stability milestone — public API of `ZeroAlloc.Results` is now considered stable. No code changes from 0.1.4; this release marks the transition out of pre-1.0 SemVer.
