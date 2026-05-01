@@ -91,3 +91,30 @@ jobs:
 
       - name: Run AOT binary
         run: ./aot-out/ZeroAlloc.Results.AotSmoke
+
+  api-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Install ApiCompat tool
+        run: dotnet tool install --global Microsoft.DotNet.ApiCompat.Tool
+      - name: Build current (sentinel assembly version >= any baseline so CP0003 never fires)
+        run: dotnet build src/ZeroAlloc.Results/ZeroAlloc.Results.csproj -c Release -p:Version=9999.0.0 -p:AssemblyVersion=9999.0.0.0 -p:FileVersion=9999.0.0.0
+      - name: Pack current
+        run: dotnet pack src/ZeroAlloc.Results/ZeroAlloc.Results.csproj -c Release --no-build --output ./current -p:Version=9999.0.0 -p:AssemblyVersion=9999.0.0.0 -p:FileVersion=9999.0.0.0
+      - name: Compare against latest published 1.x
+        run: |
+          latest=$(curl -s https://api.nuget.org/v3-flatcontainer/zeroalloc.results/index.json \
+                   | jq -r '.versions[]' | grep -E '^1\.' | tail -1)
+          if [ -z "$latest" ]; then
+            echo "No published 1.x yet — skipping baseline check (Results is currently 0.1.x)."
+            exit 0
+          fi
+          mkdir -p ./baseline
+          curl -sL "https://api.nuget.org/v3-flatcontainer/zeroalloc.results/$latest/zeroalloc.results.$latest.nupkg" \
+               -o ./baseline/baseline.nupkg
+          apicompat package ./current/*.nupkg --baseline-package ./baseline/baseline.nupkg
