@@ -1,0 +1,78 @@
+#nullable enable
+ZeroAlloc.Results.Extensions.ResultAsyncExtensions
+ZeroAlloc.Results.Extensions.ResultExtensions
+ZeroAlloc.Results.Extensions.ResultLinqExtensions
+ZeroAlloc.Results.IResult<T, E>
+ZeroAlloc.Results.IResult<T, E>.Error.get -> E
+ZeroAlloc.Results.IResult<T, E>.IsFailure.get -> bool
+ZeroAlloc.Results.IResult<T, E>.IsSuccess.get -> bool
+ZeroAlloc.Results.IResult<T, E>.Value.get -> T
+ZeroAlloc.Results.Maybe<T>
+ZeroAlloc.Results.Maybe<T>.GetValueOrDefault(T defaultValue = default(T)) -> T
+ZeroAlloc.Results.Maybe<T>.HasNoValue.get -> bool
+ZeroAlloc.Results.Maybe<T>.HasValue.get -> bool
+ZeroAlloc.Results.Maybe<T>.Maybe() -> void
+ZeroAlloc.Results.Maybe<T>.Value.get -> T
+ZeroAlloc.Results.Result
+ZeroAlloc.Results.Result.Error.get -> string!
+ZeroAlloc.Results.Result.IsFailure.get -> bool
+ZeroAlloc.Results.Result.IsSuccess.get -> bool
+ZeroAlloc.Results.Result.Result() -> void
+ZeroAlloc.Results.Result<T, E>
+ZeroAlloc.Results.Result<T, E>.Error.get -> E
+ZeroAlloc.Results.Result<T, E>.IsFailure.get -> bool
+ZeroAlloc.Results.Result<T, E>.IsSuccess.get -> bool
+ZeroAlloc.Results.Result<T, E>.Result() -> void
+ZeroAlloc.Results.Result<T, E>.Value.get -> T
+ZeroAlloc.Results.Result<T>
+ZeroAlloc.Results.Result<T>.Error.get -> string!
+ZeroAlloc.Results.Result<T>.IsFailure.get -> bool
+ZeroAlloc.Results.Result<T>.IsSuccess.get -> bool
+ZeroAlloc.Results.Result<T>.Result() -> void
+ZeroAlloc.Results.Result<T>.Value.get -> T
+ZeroAlloc.Results.UnitResult<E>
+ZeroAlloc.Results.UnitResult<E>.Error.get -> E
+ZeroAlloc.Results.UnitResult<E>.IsFailure.get -> bool
+ZeroAlloc.Results.UnitResult<E>.IsSuccess.get -> bool
+ZeroAlloc.Results.UnitResult<E>.UnitResult() -> void
+override ZeroAlloc.Results.Maybe<T>.ToString() -> string!
+override ZeroAlloc.Results.Result.ToString() -> string!
+override ZeroAlloc.Results.Result<T, E>.ToString() -> string!
+override ZeroAlloc.Results.Result<T>.ToString() -> string!
+override ZeroAlloc.Results.UnitResult<E>.ToString() -> string!
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.Bind<T, U, E>(this System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<T, E>> resultTask, System.Func<T, ZeroAlloc.Results.Result<U, E>>! bind) -> System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<U, E>>
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.BindAsync<T, U, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<U, E>>>! bind) -> System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<U, E>>
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.Map<T, U, E>(this System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<T, E>> resultTask, System.Func<T, U>! map) -> System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<U, E>>
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.MapAsync<T, U, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, System.Threading.Tasks.ValueTask<U>>! map) -> System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<U, E>>
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.MatchAsync<T, E, U>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, System.Threading.Tasks.ValueTask<U>>! onSuccess, System.Func<E, System.Threading.Tasks.ValueTask<U>>! onFailure) -> System.Threading.Tasks.ValueTask<U>
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.TapAsync<T, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, System.Threading.Tasks.ValueTask>! action) -> System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<T, E>>
+static ZeroAlloc.Results.Extensions.ResultAsyncExtensions.TapErrorAsync<T, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<E, System.Threading.Tasks.ValueTask>! action) -> System.Threading.Tasks.ValueTask<ZeroAlloc.Results.Result<T, E>>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Bind<T, U, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, ZeroAlloc.Results.Result<U, E>>! bind) -> ZeroAlloc.Results.Result<U, E>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Bind<T, U>(this ZeroAlloc.Results.Result<T> result, System.Func<T, ZeroAlloc.Results.Result<U>>! bind) -> ZeroAlloc.Results.Result<U>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Combine<T, E>(System.ReadOnlySpan<ZeroAlloc.Results.Result<T, E>> results) -> ZeroAlloc.Results.UnitResult<E>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Ensure<T, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, bool>! predicate, E error) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Map<T, U, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, U>! map) -> ZeroAlloc.Results.Result<U, E>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Map<T, U>(this ZeroAlloc.Results.Result<T> result, System.Func<T, U>! map) -> ZeroAlloc.Results.Result<U>
+static ZeroAlloc.Results.Extensions.ResultExtensions.MapError<T, E, F>(this ZeroAlloc.Results.Result<T, E> result, System.Func<E, F>! mapError) -> ZeroAlloc.Results.Result<T, F>
+static ZeroAlloc.Results.Extensions.ResultExtensions.Match<T, E, U>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, U>! onSuccess, System.Func<E, U>! onFailure) -> U
+static ZeroAlloc.Results.Extensions.ResultExtensions.Match<T, U>(this ZeroAlloc.Results.Result<T> result, System.Func<T, U>! onSuccess, System.Func<string!, U>! onFailure) -> U
+static ZeroAlloc.Results.Extensions.ResultExtensions.Tap<T, E>(this ZeroAlloc.Results.Result<T, E> result, System.Action<T>! action) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Extensions.ResultExtensions.TapError<T, E>(this ZeroAlloc.Results.Result<T, E> result, System.Action<E>! action) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Extensions.ResultLinqExtensions.Select<T, U, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, U>! selector) -> ZeroAlloc.Results.Result<U, E>
+static ZeroAlloc.Results.Extensions.ResultLinqExtensions.SelectMany<T, U, V, E>(this ZeroAlloc.Results.Result<T, E> result, System.Func<T, ZeroAlloc.Results.Result<U, E>>! bind, System.Func<T, U, V>! project) -> ZeroAlloc.Results.Result<V, E>
+static ZeroAlloc.Results.Maybe<T>.Some(T value) -> ZeroAlloc.Results.Maybe<T>
+static ZeroAlloc.Results.Maybe<T>.implicit operator ZeroAlloc.Results.Maybe<T>(T value) -> ZeroAlloc.Results.Maybe<T>
+static ZeroAlloc.Results.Result.Failure(string! error) -> ZeroAlloc.Results.Result
+static ZeroAlloc.Results.Result.Success() -> ZeroAlloc.Results.Result
+static ZeroAlloc.Results.Result<T, E>.Failure(E error) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Result<T, E>.Success(T value) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Result<T, E>.implicit operator ZeroAlloc.Results.Result<T, E>(E error) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Result<T, E>.implicit operator ZeroAlloc.Results.Result<T, E>(T value) -> ZeroAlloc.Results.Result<T, E>
+static ZeroAlloc.Results.Result<T>.Failure(string! error) -> ZeroAlloc.Results.Result<T>
+static ZeroAlloc.Results.Result<T>.Success(T value) -> ZeroAlloc.Results.Result<T>
+static ZeroAlloc.Results.Result<T>.implicit operator ZeroAlloc.Results.Result<T>(T value) -> ZeroAlloc.Results.Result<T>
+static ZeroAlloc.Results.Result<T>.implicit operator ZeroAlloc.Results.Result<T>(string! error) -> ZeroAlloc.Results.Result<T>
+static ZeroAlloc.Results.UnitResult<E>.Failure(E error) -> ZeroAlloc.Results.UnitResult<E>
+static ZeroAlloc.Results.UnitResult<E>.Success() -> ZeroAlloc.Results.UnitResult<E>
+static ZeroAlloc.Results.UnitResult<E>.implicit operator ZeroAlloc.Results.UnitResult<E>(E error) -> ZeroAlloc.Results.UnitResult<E>
+static readonly ZeroAlloc.Results.Maybe<T>.None -> ZeroAlloc.Results.Maybe<T>

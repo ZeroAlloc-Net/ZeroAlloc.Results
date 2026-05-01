@@ -4,6 +4,9 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
 
+    <!-- Lock public API surface: RS0016 = new public symbol not in PublicAPI.txt; RS0017 = declared symbol removed -->
+    <WarningsAsErrors>$(WarningsAsErrors);RS0016;RS0017</WarningsAsErrors>
+
     <!-- NuGet package metadata -->
     <Authors>Marcel Roozekrans</Authors>
     <Company>Marcel Roozekrans</Company>
