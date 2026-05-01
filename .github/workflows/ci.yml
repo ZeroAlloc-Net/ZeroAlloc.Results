@@ -106,14 +106,19 @@ jobs:
         run: dotnet build src/ZeroAlloc.Results/ZeroAlloc.Results.csproj -c Release -p:Version=9999.0.0 -p:AssemblyVersion=9999.0.0.0 -p:FileVersion=9999.0.0.0
       - name: Pack current
         run: dotnet pack src/ZeroAlloc.Results/ZeroAlloc.Results.csproj -c Release --no-build --output ./current -p:Version=9999.0.0 -p:AssemblyVersion=9999.0.0.0 -p:FileVersion=9999.0.0.0
-      - name: Compare against latest published 1.x
+      - name: Compare against latest published version
+        # Take the highest released stable version overall (no major filter,
+        # exclude prerelease tags). Steady-state this gates each x.y.(z+1) patch
+        # against x.y.z and each x.(y+1).0 against x.y.(latest). Major bumps
+        # temporarily fire on intentional breaks, which is the correct cost.
         run: |
           latest=$(curl -s https://api.nuget.org/v3-flatcontainer/zeroalloc.results/index.json \
-                   | jq -r '.versions[]' | grep -E '^1\.' | tail -1)
+                   | jq -r '.versions[]' | grep -vE '(-|preview|alpha|beta|rc)' | tail -1)
           if [ -z "$latest" ]; then
-            echo "No published 1.x yet — skipping baseline check (Results is currently 0.1.x)."
+            echo "No stable releases on nuget.org yet — skipping baseline check."
             exit 0
           fi
+          echo "Comparing against published version: $latest"
           mkdir -p ./baseline
           curl -sL "https://api.nuget.org/v3-flatcontainer/zeroalloc.results/$latest/zeroalloc.results.$latest.nupkg" \
                -o ./baseline/baseline.nupkg
