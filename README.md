@@ -99,18 +99,18 @@ Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharp
 | `Match` | 0.37 ns | 0.68 ns | **0 B** both | **1.9× faster** |
 | `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **0 B** both | **1.1× faster** |
 
-See [docs/performance.md](docs/performance.md) for the full benchmark analysis and zero-allocation design explanation.
+See [docs/performance.md](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) for the full benchmark analysis and zero-allocation design explanation.
 
 ## Documentation
 
 | Page | Description |
 |------|-------------|
-| [Getting Started](docs/getting-started.md) | Install and write your first result pipeline |
-| [Types](docs/types.md) | All five result types and when to use each |
-| [Combinators](docs/combinators.md) | Map, Bind, Match, Tap, Ensure, Combine |
-| [Async](docs/async.md) | ValueTask async variants for all combinators |
-| [LINQ](docs/linq.md) | Query syntax with Select and SelectMany |
-| [Performance](docs/performance.md) | Zero-alloc design and benchmark results |
+| [Getting Started](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/getting-started.md) | Install and write your first result pipeline |
+| [Types](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/types.md) | All five result types and when to use each |
+| [Combinators](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/combinators.md) | Map, Bind, Match, Tap, Ensure, Combine |
+| [Async](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/async.md) | ValueTask async variants for all combinators |
+| [LINQ](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/linq.md) | Query syntax with Select and SelectMany |
+| [Performance](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) | Zero-alloc design and benchmark results |
 
 ## License
 
