@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.1.2...v1.2.0) (2026-05-13)
+
+
+### Features
+
+* **benchmarks:** add OneOf, ErrorOr, FluentResults comparison ([#36](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/36)) ([d0a7d50](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/d0a7d50a8f1af135c4cadbccafaf563029b81225))
+
 ## [1.1.2](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.1.1...v1.1.2) (2026-05-12)
 
 
