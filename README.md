@@ -77,29 +77,20 @@ var response = await GetUser(id)
 
 ## Performance
 
-All core operations produce **zero heap allocations** (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12).
+ZeroAlloc.Results is the **only result library in .NET with 0 B allocation on every path** — including failure construction. .NET 10.0.7, i9-12900HK, BenchmarkDotNet v0.15.4.
 
-| Method | Mean | Allocated |
-|--------|-----:|----------:|
-| `Result<int,string>.Success(42)` | 0.25 ns | **0 B** |
-| `Result<int,string>.Failure("err")` | 0.43 ns | **0 B** |
-| `.Map(x => x * 2)` | 2.92 ns | **0 B** |
-| `.Bind(x => Success(x.ToString()))` | 8.81 ns | **0 B** |
-| `.Match(v => v, _ => -1)` | 2.02 ns | **0 B** |
-| `Maybe<int>.Some(42)` | 3.66 ns | **0 B** |
-| `UnitResult<string>.Success()` | 0.35 ns | **0 B** |
+| Scenario | ZeroAlloc.Results | OneOf | ErrorOr | FluentResults |
+|---|---:|---:|---:|---:|
+| Success construct | 0.4 ns / 0 B | 0.5 ns / 0 B | 0.0 ns / 0 B | 87 ns / **112 B** |
+| Failure construct | 0.3 ns / 0 B | 0.9 ns / 0 B | 63 ns / **184 B** | 87 ns / **272 B** |
+| Failure consume | 0.4 ns / 0 B | 0.9 ns / 0 B | 2.6 ns / 0 B | 214 ns / **240 B** |
+| Hot loop (100 iter, 1-in-3 fail) | **183 ns / 0 B** | 202 ns / 0 B | 7,693 ns / 6,256 B | 39,450 ns / 25,968 B |
 
-Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions) 3.7.0 (Windows 11, .NET 9.0.14, BenchmarkDotNet v0.13.12):
+On the realistic mixed-success/failure workload, ZeroAlloc.Results is **1.1× faster than OneOf**, **42× faster than ErrorOr**, and **216× faster than FluentResults** — with zero allocation while the latter two allocate per-failure.
 
-| Category | ZeroAlloc.Results | CSharpFunctionalExtensions | Allocated | Ratio |
-|----------|------------------:|------:|:---------:|------:|
-| `Create_Success` | 0.33 ns | 2.89 ns | **0 B** both | **8.7× faster** |
-| `Create_Failure` | 0.30 ns | 1.44 ns | **0 B** both | **4.8× faster** |
-| `Map` | 1.09 ns | 1.48 ns | **0 B** both | **1.4× faster** |
-| `Match` | 0.37 ns | 0.68 ns | **0 B** both | **1.9× faster** |
-| `Chain` (Map+Bind+Match) | 2.28 ns | 2.45 ns | **0 B** both | **1.1× faster** |
+Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions): **1.1–8.7× faster** depending on operation; 0 B both.
 
-See [docs/performance.md](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) for the full benchmark analysis and zero-allocation design explanation.
+See [docs/performance.md](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) for full methodology, all scenarios, and analysis.
 
 ## Documentation
 
