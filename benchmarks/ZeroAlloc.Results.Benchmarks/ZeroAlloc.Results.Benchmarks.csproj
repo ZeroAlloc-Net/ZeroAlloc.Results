@@ -12,7 +12,7 @@
     <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="ErrorOr" Version="2.1.1" />
-    <PackageReference Include="FluentResults" Version="3.16.0" />
+    <PackageReference Include="FluentResults" Version="4.0.0" />
     <ProjectReference Include="..\..\src\ZeroAlloc.Results\ZeroAlloc.Results.csproj" />
   </ItemGroup>
 </Project>
