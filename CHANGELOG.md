@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.2.0...v1.2.1) (2026-08-12)
+
+
+### Bug Fixes
+
+* turn warnings into errors, fixing the compiler findings underneath ([#54](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/54)) ([834e608](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/834e6085a238a37e840aafd72696d8c50fd6b304))
+
 ## [1.2.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.1.2...v1.2.0) (2026-05-13)
 
 
