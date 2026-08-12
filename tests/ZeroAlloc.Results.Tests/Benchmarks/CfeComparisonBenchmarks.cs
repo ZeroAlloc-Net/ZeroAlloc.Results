@@ -53,12 +53,12 @@ public class CfeComparisonBenchmarks
     [Benchmark(Baseline = true), BenchmarkCategory("Bind")]
     public ZA.Result<string, string> ZA_Bind() =>
         ZA.Result<int, string>.Success(5)
-            .Bind(x => ZA.Result<string, string>.Success(x.ToString()));
+            .Bind(x => ZA.Result<string, string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
     [Benchmark, BenchmarkCategory("Bind")]
     public CfeResultStr CFE_Bind() =>
         CfeResult.Success<int, string>(5)
-            .Bind(x => CfeResult.Success<string, string>(x.ToString()));
+            .Bind(x => CfeResult.Success<string, string>(x.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
     // ── Match ─────────────────────────────────────────────────────────────
 
@@ -76,13 +76,13 @@ public class CfeComparisonBenchmarks
     public int ZA_Chain() =>
         ZA.Result<int, string>.Success(5)
             .Map(x => x * 2)
-            .Bind(x => ZA.Result<string, string>.Success(x.ToString()))
+            .Bind(x => ZA.Result<string, string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture)))
             .Match(s => s.Length, _ => -1);
 
     [Benchmark, BenchmarkCategory("Chain")]
     public int CFE_Chain() =>
         CfeResult.Success<int, string>(5)
             .Map(x => x * 2)
-            .Bind(x => CfeResult.Success<string, string>(x.ToString()))
+            .Bind(x => CfeResult.Success<string, string>(x.ToString(System.Globalization.CultureInfo.InvariantCulture)))
             .Match(s => s.Length, _ => -1);
 }

@@ -79,7 +79,7 @@ public class ResultExtensionsMapBindTests
     public void Bind_Result1_OnSuccess_ChainsResult()
     {
         var result = Result<int>.Success(5)
-            .Bind(x => Result<string>.Success(x.ToString()));
+            .Bind(x => Result<string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture)));
         Assert.True(result.IsSuccess);
         Assert.Equal("5", result.Value);
     }
