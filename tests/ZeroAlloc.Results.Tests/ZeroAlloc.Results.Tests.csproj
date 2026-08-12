@@ -5,6 +5,10 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
+    <!-- This project supplies its own entry point (top-level statements) so BenchmarkDotNet
+         can be launched from it. Microsoft.NET.Test.Sdk also generates one, and the two
+         collide as CS7022. Telling the SDK not to generate it is the documented fix. -->
+    <GenerateProgramFile>false</GenerateProgramFile>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>

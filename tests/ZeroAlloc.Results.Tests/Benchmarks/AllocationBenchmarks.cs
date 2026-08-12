@@ -28,7 +28,7 @@ public class AllocationBenchmarks
     [Benchmark]
     public Result<string, string> Bind_Chain() =>
         Result<int, string>.Success(5)
-            .Bind(x => Result<string, string>.Success(x.ToString()));
+            .Bind(x => Result<string, string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture)));
 
     [Benchmark]
     public int Match_Success() =>

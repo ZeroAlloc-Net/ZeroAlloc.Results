@@ -20,7 +20,19 @@
     <PackageIcon>icon.png</PackageIcon>
     <Copyright>Copyright (c) Marcel Roozekrans</Copyright>
     <VersionPrefix>0.1.0</VersionPrefix>
-  </PropertyGroup>
+      <!-- Warnings are errors here as across the rest of the org; without it a build can
+         accumulate warnings indefinitely and nothing reports it. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- EPS05 asks for an in-modifier on the three public extension methods Map, Bind and
+         Match. Result is bool + string + T, roughly 24 bytes, so the copy it avoids is
+         marginal; changing "this Result&lt;T&gt;" to "this in Result&lt;T&gt;" is a binary
+         breaking change for every consumer and would need a PublicAPI update. That is a
+         design decision about the public surface, not a warning to clear in passing.
+         MA0048 asks that Result1.cs and Result2.cs be named after their single type; they
+         hold the arity-1 and arity-2 partials of the same Result family and are read as a
+         pair. -->
+    <NoWarn>$(NoWarn);EPS05;MA0048</NoWarn>
+</PropertyGroup>
   <ItemGroup Condition="'$(IsPackable)' != 'false'">
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
     <None Include="$(MSBuildThisFileDirectory)assets\icon.png" Pack="true" PackagePath="\" />

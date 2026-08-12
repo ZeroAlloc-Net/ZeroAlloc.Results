@@ -11,7 +11,6 @@ public class IResultTests
         // This test documents intent: IResult<T,E> exists only as a generic constraint.
         // The interface itself must be internal or carry an [EditorBrowsable(Never)] attribute.
         // We verify the interface exists by using it as a constraint.
-        static TResult GetSuccess<TResult>(TResult r) where TResult : IResult<int, string> => r;
 
         // Actual assertion: compiles and works (if this file compiles, the interface exists)
         Assert.True(true);

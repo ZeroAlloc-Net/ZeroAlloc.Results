@@ -30,7 +30,7 @@ public class ResultAsyncExtensionsTests
             .BindAsync(async x =>
             {
                 await Task.Yield();
-                return Result<string, string>.Success(x.ToString());
+                return Result<string, string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture));
             });
         Assert.True(result.IsSuccess);
         Assert.Equal("5", result.Value);
@@ -69,7 +69,7 @@ public class ResultAsyncExtensionsTests
     {
         var called = false;
         var result = await Result<int, string>.Failure("err")
-            .BindAsync(async x => { called = true; await Task.Yield(); return Result<string, string>.Success(x.ToString()); });
+            .BindAsync(async x => { called = true; await Task.Yield(); return Result<string, string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture)); });
         Assert.False(called);
         Assert.True(result.IsFailure);
     }
@@ -115,7 +115,7 @@ public class ResultAsyncExtensionsTests
     public async Task Bind_OnValueTaskResult_ChainsResult()
     {
         ValueTask<Result<int, string>> source = ValueTask.FromResult(Result<int, string>.Success(5));
-        var result = await source.Bind(x => Result<string, string>.Success(x.ToString()));
+        var result = await source.Bind(x => Result<string, string>.Success(x.ToString(System.Globalization.CultureInfo.InvariantCulture)));
         Assert.True(result.IsSuccess);
         Assert.Equal("5", result.Value);
     }

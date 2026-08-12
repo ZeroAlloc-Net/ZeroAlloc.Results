@@ -1,0 +1,10 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(MSBuildThisFileDirectory)..))" />
+  <PropertyGroup>
+    <!-- EPS05 and EPS06 fire on Result, OneOf and ValueTask throughout these files. They are
+         measurement and assertion code passing small readonly structs by value, which is
+         what the library is for; adding in-modifiers here would change the shape being
+         benchmarked. The src/ occurrences are handled separately. -->
+    <NoWarn>$(NoWarn);EPS05;EPS06</NoWarn>
+  </PropertyGroup>
+</Project>
