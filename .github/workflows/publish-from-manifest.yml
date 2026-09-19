@@ -40,7 +40,12 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        # -p:Version must be passed HERE, not only to pack. The pack step below runs
+        # --no-build and overrides PackageVersion alone, so a build without this leaves
+        # the assembly stamped with Directory.Build.props' VersionPrefix fallback while
+        # the package claims the real version. That is how 1.2.1 shipped an assembly of
+        # 0.1.0.0 and could not be loaded by any consumer. See issue 108.
+        run: dotnet build --configuration Release --no-restore -p:Version=${{ steps.version.outputs.version }}
 
       - name: Test
         run: dotnet test --configuration Release --no-build
