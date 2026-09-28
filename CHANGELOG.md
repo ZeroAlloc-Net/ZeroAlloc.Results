@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.2.3...v1.2.4) (2026-09-28)
+
+
+### Bug Fixes
+
+* mark released public api as shipped and automate the move ([#132](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/132)) ([242abbf](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/242abbf853a766899c4a2fa9b19cf9fc8a0e114f))
+
 ## [1.2.3](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.2.2...v1.2.3) (2026-09-20)
 
 
