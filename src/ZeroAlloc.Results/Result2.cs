@@ -4,7 +4,7 @@ namespace ZeroAlloc.Results;
 /// A zero-allocation discriminated union representing either a success value of type <typeparamref name="T"/>
 /// or a failure value of type <typeparamref name="E"/>.
 /// </summary>
-public readonly struct Result<T, E> : IResult<T, E>
+public readonly struct Result<T, E> : IResult<T, E>, IFailureFactory<Result<T, E>, E>
 {
     private readonly bool _isSuccess;
     private readonly T _value;
@@ -45,6 +45,9 @@ public readonly struct Result<T, E> : IResult<T, E>
 
     /// <summary>Creates a failed result containing <paramref name="error"/>.</summary>
     public static Result<T, E> Failure(E error) => new(error);
+
+    /// <inheritdoc/>
+    Result<T, E> IFailureFactory<Result<T, E>, E>.CreateFailure(E error) => Failure(error);
 
     /// <summary>Implicitly wraps a value as a successful result.</summary>
     public static implicit operator Result<T, E>(T value) => Success(value);
