@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.2.4...v1.3.0) (2026-10-10)
+
+
+### Features
+
+* mark ZeroAlloc.Results as AOT-compatible ([#139](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/139)) ([2dc5a03](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/2dc5a03b5bf1a2d724742182f7f23c0cb07a5264))
+
 ## [1.2.4](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.2.3...v1.2.4) (2026-09-28)
 
 
