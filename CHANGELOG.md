@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.3.0...v1.4.0) (2026-10-10)
+
+
+### Features
+
+* add IFailureFactory for reflection-free failure construction ([#141](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/141)) ([d90a980](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/d90a980981cbd6e6a66600b7488e083ac04d954e))
+
 ## [1.3.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.2.4...v1.3.0) (2026-10-10)
 
 

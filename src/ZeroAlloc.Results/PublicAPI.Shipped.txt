@@ -43,6 +43,8 @@ static ZeroAlloc.Results.UnitResult<E>.Success() -> ZeroAlloc.Results.UnitResult
 ZeroAlloc.Results.Extensions.ResultAsyncExtensions
 ZeroAlloc.Results.Extensions.ResultExtensions
 ZeroAlloc.Results.Extensions.ResultLinqExtensions
+ZeroAlloc.Results.IFailureFactory<TSelf, E>
+ZeroAlloc.Results.IFailureFactory<TSelf, E>.CreateFailure(E error) -> TSelf
 ZeroAlloc.Results.IResult<T, E>
 ZeroAlloc.Results.IResult<T, E>.Error.get -> E
 ZeroAlloc.Results.IResult<T, E>.IsFailure.get -> bool
