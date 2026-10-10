@@ -4,7 +4,7 @@ namespace ZeroAlloc.Results;
 /// A zero-allocation discriminated union with a success value of type <typeparamref name="T"/>
 /// and a fixed <see cref="string"/> error.
 /// </summary>
-public readonly struct Result<T> : IResult<T, string>
+public readonly struct Result<T> : IResult<T, string>, IFailureFactory<Result<T>, string>
 {
     private readonly bool _isSuccess;
     private readonly T _value;
@@ -45,6 +45,9 @@ public readonly struct Result<T> : IResult<T, string>
 
     /// <summary>Creates a failed result containing <paramref name="error"/>.</summary>
     public static Result<T> Failure(string error) => new(error);
+
+    /// <inheritdoc/>
+    Result<T> IFailureFactory<Result<T>, string>.CreateFailure(string error) => Failure(error);
 
     /// <summary>Implicitly wraps a value as a successful result.</summary>
     public static implicit operator Result<T>(T value) => Success(value);

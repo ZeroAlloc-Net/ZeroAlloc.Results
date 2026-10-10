@@ -34,6 +34,14 @@ if (!u.IsSuccess) return Fail("UnitResult<string>.Success.IsSuccess should be tr
 if (!string.Equals(uErr.Error, "broken", StringComparison.Ordinal))
     return Fail($"UnitResult<string>.Error expected 'broken', got '{uErr.Error}'");
 
+// 4b. IFailureFactory — the generic, reflection-free failure construction pipeline behaviours use
+if (!FailureVia<Result<int, string>, string>("f1", out var f1) || !string.Equals(f1.Error, "f1", StringComparison.Ordinal))
+    return Fail("IFailureFactory on Result<int,string> did not build a failure");
+if (!FailureVia<Result<int>, string>("f2", out var f2) || !string.Equals(f2.Error, "f2", StringComparison.Ordinal))
+    return Fail("IFailureFactory on Result<int> did not build a failure");
+if (!FailureVia<UnitResult<string>, string>("f3", out var f3) || !string.Equals(f3.Error, "f3", StringComparison.Ordinal))
+    return Fail("IFailureFactory on UnitResult<string> did not build a failure");
+
 // 5. Maybe<T>
 var some = Maybe<int>.Some(99);
 var none = Maybe<int>.None;
@@ -55,4 +63,15 @@ static int Fail(string message)
 {
     Console.Error.WriteLine($"AOT smoke: FAIL — {message}");
     return 1;
+}
+
+static bool FailureVia<TResult, TError>(TError error, out TResult result)
+{
+    if (default(TResult) is IFailureFactory<TResult, TError> factory)
+    {
+        result = factory.CreateFailure(error);
+        return true;
+    }
+    result = default!;
+    return false;
 }

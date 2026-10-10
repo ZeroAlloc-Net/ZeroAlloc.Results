@@ -1,1 +1,3 @@
 #nullable enable
+ZeroAlloc.Results.IFailureFactory<TSelf, E>
+ZeroAlloc.Results.IFailureFactory<TSelf, E>.CreateFailure(E error) -> TSelf

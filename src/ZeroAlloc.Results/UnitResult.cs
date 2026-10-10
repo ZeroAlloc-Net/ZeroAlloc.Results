@@ -4,7 +4,7 @@ namespace ZeroAlloc.Results;
 /// A zero-allocation result with no success value and a typed error of <typeparamref name="E"/>.
 /// Use when an operation either succeeds (with no return value) or fails with a typed error.
 /// </summary>
-public readonly struct UnitResult<E>
+public readonly struct UnitResult<E> : IFailureFactory<UnitResult<E>, E>
 {
     private readonly bool _isSuccess;
     private readonly E _error;
@@ -31,6 +31,9 @@ public readonly struct UnitResult<E>
 
     /// <summary>Creates a failed unit result with the given typed error.</summary>
     public static UnitResult<E> Failure(E error) => new(false, error);
+
+    /// <inheritdoc/>
+    UnitResult<E> IFailureFactory<UnitResult<E>, E>.CreateFailure(E error) => Failure(error);
 
     /// <summary>Implicitly wraps a typed error as a failed unit result.</summary>
     public static implicit operator UnitResult<E>(E error) => Failure(error);
