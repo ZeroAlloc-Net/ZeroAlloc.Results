@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.0...v1.4.1) (2026-10-11)
+
+
+### Tests
+
+* gate combinators, LINQ and async extensions at zero allocation ([#144](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/144)) ([d26c179](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/d26c1797ecb1b395365c162200800c606788d209)), closes [#143](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/143)
+
 ## [1.4.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.3.0...v1.4.0) (2026-10-10)
 
 
