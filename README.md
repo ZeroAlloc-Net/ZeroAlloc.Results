@@ -2,11 +2,11 @@
 
 [![NuGet](https://img.shields.io/nuget/v/ZeroAlloc.Results.svg)](https://www.nuget.org/packages/ZeroAlloc.Results)
 [![Build](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/actions/workflows/ci.yml/badge.svg)](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/LICENSE)
 [![AOT](https://img.shields.io/badge/AOT--Compatible-passing-brightgreen)](https://learn.microsoft.com/dotnet/core/deploying/native-aot/)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/MarcelRoozekrans?style=flat&logo=githubsponsors&color=ea4aaa&label=Sponsor)](https://github.com/sponsors/MarcelRoozekrans)
 
-ZeroAlloc.Results is a zero-allocation, no-boxing `Result<T, E>` library for .NET 9. All types are `readonly struct` — no heap allocation, no boxing, no GC pressure.
+ZeroAlloc.Results is a zero-allocation, no-boxing `Result<T, E>` library for .NET 8, 9 and 10. All types are `readonly struct` — no heap allocation, no boxing, no GC pressure.
 
 ## Install
 
@@ -45,10 +45,11 @@ var greeting =
     from profile in GetProfile(user)
     select $"Hello, {profile.Name}";
 
-// Async pipelines with ValueTask
+// Async pipelines with ValueTask: start with MapAsync/BindAsync,
+// then continue with Map/Bind on the ValueTask<Result<T, E>>
 var response = await GetUser(id)
-    .MapAsync(async u  => await LoadPermissions(u))
-    .BindAsync(async p => await BuildToken(p));
+    .MapAsync(u => LoadPermissionsAsync(u))   // ValueTask<Result<Permissions, string>>
+    .Bind(p => BuildToken(p));                // Bind continues the async pipeline
 ```
 
 ## Types
@@ -72,8 +73,8 @@ var response = await GetUser(id)
 | `Tap(T→void)` | Side-effect on success, pass through |
 | `TapError(E→void)` | Side-effect on failure, pass through |
 | `Ensure(T→bool, E)` | Validate success value |
-| `Combine(Span<Result<T,E>>)` | Merge multiple results, zero-alloc |
-| `*Async` | `ValueTask`-based variant of each combinator |
+| `ResultExtensions.Combine(ReadOnlySpan<Result<T,E>>)` | Merge multiple results into a `UnitResult<E>`, zero-alloc |
+| `MapAsync`, `BindAsync`, `TapAsync`, `TapErrorAsync`, `MatchAsync` | `ValueTask`-based variants; `Map` and `Bind` also extend `ValueTask<Result<T,E>>` to continue an async pipeline |
 
 ## Performance
 
@@ -88,7 +89,7 @@ ZeroAlloc.Results is the **only result library in .NET with 0 B allocation on ev
 
 On the realistic mixed-success/failure workload, ZeroAlloc.Results is **1.1× faster than OneOf**, **42× faster than ErrorOr**, and **216× faster than FluentResults** — with zero allocation while the latter two allocate per-failure.
 
-Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions): **1.1–8.7× faster** depending on operation; 0 B both.
+Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions): from **comparable** (`Bind`) to **8.7× faster** (`Create_Success`) depending on operation; 0 B both.
 
 See [docs/performance.md](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) for full methodology, all scenarios, and analysis.
 
