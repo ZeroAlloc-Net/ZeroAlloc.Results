@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.1...v1.4.2) (2026-10-15)
+
+
+### Documentation
+
+* fix readme async sample, combinator table and stated targets ([#151](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/151)) ([1e0678c](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/1e0678c14b1685b4d40b785e8a05ce76c432ba29))
+
 ## [1.4.1](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.0...v1.4.1) (2026-10-11)
 
 
