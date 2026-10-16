@@ -6,7 +6,14 @@
 [![AOT](https://img.shields.io/badge/AOT--Compatible-passing-brightgreen)](https://learn.microsoft.com/dotnet/core/deploying/native-aot/)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/MarcelRoozekrans?style=flat&logo=githubsponsors&color=ea4aaa&label=Sponsor)](https://github.com/sponsors/MarcelRoozekrans)
 
-ZeroAlloc.Results is a zero-allocation, no-boxing `Result<T, E>` library for .NET 8, 9 and 10. All types are `readonly struct` — no heap allocation, no boxing, no GC pressure.
+Railway-style `Result<T, E>` for .NET 8, 9 and 10: errors as values instead of exceptions, 0 B allocated on success and failure alike, NativeAOT-ready.
+
+## Why ZeroAlloc.Results
+
+- **0 B per call, on both paths.** Every type is a `readonly struct`. Allocation tests assert 0 B for `Map`, `Bind`, `Match`, `Tap`, `Ensure`, `Combine` and LINQ query syntax, for success and failure, and for the `ValueTask` combinators when they complete synchronously.
+- **Faster when things fail.** On a hot loop where one call in three fails, it runs 42× faster than ErrorOr and 216× faster than FluentResults in the same benchmark run, and 1.1× faster than OneOf.
+- **Works under NativeAOT and trimming.** No reflection. The package is marked AOT-compatible, and CI publishes and runs a NativeAOT sample with trim and AOT warnings promoted to errors.
+- **A familiar API.** `Map`, `Bind`, `Match`, `Tap` and `Ensure`, LINQ query syntax and `ValueTask` async variants. Coming from CSharpFunctionalExtensions, most code moves over by swapping the `using`.
 
 ## Install
 
@@ -14,96 +21,58 @@ ZeroAlloc.Results is a zero-allocation, no-boxing `Result<T, E>` library for .NE
 dotnet add package ZeroAlloc.Results
 ```
 
-## Quick Example
+## Quick start
 
 ```csharp
 using ZeroAlloc.Results;
 using ZeroAlloc.Results.Extensions;
 
-// Create
-Result<int, string> ok = Result<int, string>.Success(42);
-Result<int, string> fail = Result<int, string>.Failure("not found");
+Console.WriteLine(Describe("42"));  // Welcome, age 42
+Console.WriteLine(Describe("12"));  // Rejected: too young
+Console.WriteLine(Describe("abc")); // Rejected: not a number
 
-// Or via implicit conversion
-Result<int, string> r = 42;       // success
-Result<int, string> e = "error";  // failure
+static string Describe(string input) =>
+    ParseAge(input)
+        .Ensure(static age => age >= 18, "too young")
+        .Map(static age => $"Welcome, age {age}")
+        .Match(static text => text, static error => $"Rejected: {error}");
 
-// Chain with Map, Bind, Ensure
-var result = GetUser(id)
-    .Ensure(u => u.IsActive, "user is inactive")
-    .Map(u => u.Email)
-    .Bind(email => SendWelcome(email));
-
-// Match to extract
-string message = result.Match(
-    onSuccess: email => $"Sent to {email}",
-    onFailure: err  => $"Failed: {err}");
-
-// LINQ query syntax
-var greeting =
-    from user    in GetUser(id)
-    from profile in GetProfile(user)
-    select $"Hello, {profile.Name}";
-
-// Async pipelines with ValueTask: start with MapAsync/BindAsync,
-// then continue with Map/Bind on the ValueTask<Result<T, E>>
-var response = await GetUser(id)
-    .MapAsync(u => LoadPermissionsAsync(u))   // ValueTask<Result<Permissions, string>>
-    .Bind(p => BuildToken(p));                // Bind continues the async pipeline
+// A value converts to success, an error converts to failure.
+static Result<int, string> ParseAge(string input) =>
+    int.TryParse(input, out var age) ? age : "not a number";
 ```
 
-## Types
+No exception is thrown: the first failure skips the remaining steps and lands in `Match`.
 
-| Type | Success | Error | Use case |
-|------|---------|-------|----------|
-| `Result` | — | `string` | simple pass/fail |
-| `Result<T>` | `T` | `string` | most common |
-| `Result<T, E>` | `T` | `E` | fully generic |
-| `UnitResult<E>` | — | `E` | typed error, no value |
-| `Maybe<T>` | `T` | — | optional value |
+## What you get
 
-## API
-
-| Method | Description |
-|--------|-------------|
-| `Map(T→U)` | Transform the success value |
-| `MapError(E→F)` | Transform the error value |
-| `Bind(T→Result<U,E>)` | Chain result-returning functions |
-| `Match(onSuccess, onFailure)` | Extract a value from either branch |
-| `Tap(T→void)` | Side-effect on success, pass through |
-| `TapError(E→void)` | Side-effect on failure, pass through |
-| `Ensure(T→bool, E)` | Validate success value |
-| `ResultExtensions.Combine(ReadOnlySpan<Result<T,E>>)` | Merge multiple results into a `UnitResult<E>`, zero-alloc |
-| `MapAsync`, `BindAsync`, `TapAsync`, `TapErrorAsync`, `MatchAsync` | `ValueTask`-based variants; `Map` and `Bind` also extend `ValueTask<Result<T,E>>` to continue an async pipeline |
+- **Five result shapes:** pass/fail, a value or a string error, a value or a typed error, a typed error with no value, and an optional value (`Maybe<T>`).
+- **Railway-style combinators:** transform, chain, validate, inspect and unwrap a result without `if` checks.
+- **Batch checks:** combine many results into one that reports the first failure.
+- **LINQ query syntax:** chain dependent steps with `from … in … select`.
+- **Async pipelines:** `ValueTask`-based variants, plus `Map` and `Bind` that continue straight onto a `ValueTask<Result<T, E>>`.
+- **Typed errors:** use your own error structs or enums, so failures carry data rather than strings.
+- **Generic failure construction:** pipeline code can build a failed result for a response type it only knows as a type parameter, without reflection.
 
 ## Performance
 
-ZeroAlloc.Results is the **only result library in .NET with 0 B allocation on every path** — including failure construction. .NET 10.0.7, i9-12900HK, BenchmarkDotNet v0.15.4.
+.NET 10.0.7, Intel Core i9-12900HK, BenchmarkDotNet v0.15.4. Time and allocated bytes per operation, all libraries in the same run.
 
 | Scenario | ZeroAlloc.Results | OneOf | ErrorOr | FluentResults |
 |---|---:|---:|---:|---:|
-| Success construct | 0.4 ns / 0 B | 0.5 ns / 0 B | 0.0 ns / 0 B | 87 ns / **112 B** |
 | Failure construct | 0.3 ns / 0 B | 0.9 ns / 0 B | 63 ns / **184 B** | 87 ns / **272 B** |
 | Failure consume | 0.4 ns / 0 B | 0.9 ns / 0 B | 2.6 ns / 0 B | 214 ns / **240 B** |
 | Hot loop (100 iter, 1-in-3 fail) | **183 ns / 0 B** | 202 ns / 0 B | 7,693 ns / 6,256 B | 39,450 ns / 25,968 B |
 
-On the realistic mixed-success/failure workload, ZeroAlloc.Results is **1.1× faster than OneOf**, **42× faster than ErrorOr**, and **216× faster than FluentResults** — with zero allocation while the latter two allocate per-failure.
+The [performance page](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) has every scenario, a comparison with CSharpFunctionalExtensions, a Result versus throw/catch benchmark and how to run them yourself.
 
-Head-to-head vs [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions): from **comparable** (`Bind`) to **8.7× faster** (`Create_Success`) depending on operation; 0 B both.
+## Learn more
 
-See [docs/performance.md](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) for full methodology, all scenarios, and analysis.
-
-## Documentation
-
-| Page | Description |
-|------|-------------|
-| [Getting Started](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/getting-started.md) | Install and write your first result pipeline |
-| [Types](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/types.md) | All five result types and when to use each |
-| [Combinators](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/combinators.md) | Map, Bind, Match, Tap, Ensure, Combine |
-| [Async](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/async.md) | ValueTask async variants for all combinators |
-| [LINQ](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/linq.md) | Query syntax with Select and SelectMany |
-| [Performance](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) | Zero-alloc design and benchmark results |
-
-## License
-
-MIT
+- **Documentation:** [results.zeroalloc.net](https://results.zeroalloc.net): [types](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/types.md), [combinators](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/combinators.md), [async](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/async.md), [LINQ](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/linq.md) and [migrating from CSharpFunctionalExtensions](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/migration-from-cfe.md).
+- **Related ZeroAlloc packages:**
+  - [ZeroAlloc.Mediator](https://github.com/ZeroAlloc-Net/ZeroAlloc.Mediator) ([docs](https://mediator.zeroalloc.net)): its validation and authorization behaviors return a failed `Result<T, E>` instead of throwing.
+  - [ZeroAlloc.Pipeline](https://github.com/ZeroAlloc-Net/ZeroAlloc.Pipeline) ([docs](https://pipeline.zeroalloc.net)): the source-generated behavior pipeline that Mediator's behaviors run on.
+  - [ZeroAlloc.Validation](https://github.com/ZeroAlloc-Net/ZeroAlloc.Validation) ([docs](https://validation.zeroalloc.net)): source-generated validators; through Mediator, a failed validation becomes a `Result<T, ValidationError>`.
+  - [ZeroAlloc.Authorization](https://github.com/ZeroAlloc-Net/ZeroAlloc.Authorization) ([docs](https://authorization.zeroalloc.net)): authorization policies return a `UnitResult<AuthorizationFailure>`.
+- **Contributing:** issues and pull requests are welcome on [GitHub](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues).
+- **License:** [MIT](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/LICENSE).
