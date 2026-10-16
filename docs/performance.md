@@ -72,7 +72,7 @@ _Last refreshed: 2026-05-13_
 | Failure consume | 0.4 ns / 0 B | 0.9 ns / 0 B | 2.6 ns / 0 B | 214 ns / **240 B** |
 | Hot loop (100 iter, mixed) | **183 ns / 0 B** | 202 ns / 0 B | 7,693 ns / 6,256 B | 39,450 ns / 25,968 B |
 
-ZeroAlloc.Results is the **only library with 0 B allocation on every path** — including failure construction, which is where ErrorOr (184 B) and FluentResults (272 B) pay the most. OneOf is the closest competitor (also struct-based, also 0 B on hot paths) but is ~10% slower on the realistic mixed workload.
+ZeroAlloc.Results and OneOf both allocate **0 B on every path**, including failure construction, which is where ErrorOr (184 B) and FluentResults (272 B) pay the most. Both are struct-based; ZeroAlloc.Results is ~10% faster than OneOf on the realistic mixed workload.
 
 **The realistic-workload headline (100 iterations with 1-in-3 failures):**
 

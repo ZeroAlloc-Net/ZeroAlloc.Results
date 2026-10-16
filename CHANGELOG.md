@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.2...v1.4.3) (2026-10-16)
+
+
+### Documentation
+
+* rewrite the readme as a product page ([#155](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/155)) ([8897198](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/88971982c5a8a2041c55d83e3eee652482c635f8))
+
 ## [1.4.2](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.1...v1.4.2) (2026-10-15)
 
 
