@@ -72,7 +72,7 @@ jobs:
           path: "**/*.trx"
 
       - name: Upload coverage to Codecov
-        if: ${ !cancelled() }
+        if: '!cancelled()'
         uses: codecov/codecov-action@v5
         with:
           use_oidc: true
