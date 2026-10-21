@@ -12,7 +12,7 @@ Railway-style `Result<T, E>` for .NET 8, 9 and 10: errors as values instead of e
 ## Why ZeroAlloc.Results
 
 - **0 B per call, on both paths.** Every type is a `readonly struct`. Allocation tests assert 0 B for `Map`, `Bind`, `Match`, `Tap`, `Ensure`, `Combine` and LINQ query syntax, for success and failure, and for the `ValueTask` combinators when they complete synchronously.
-- **Faster when things fail.** On a hot loop where one call in three fails, it runs 42× faster than ErrorOr and 216× faster than FluentResults in the same benchmark run, and 1.1× faster than OneOf.
+- **Faster when things fail.** On a hot loop where one call in three fails, it runs 4.1× faster than ErrorOr and 41× faster than FluentResults in the same benchmark run, at parity with OneOf, and allocates nothing.
 - **Works under NativeAOT and trimming.** No reflection. The package is marked AOT-compatible, and CI publishes and runs a NativeAOT sample with trim and AOT warnings promoted to errors.
 - **A familiar API.** `Map`, `Bind`, `Match`, `Tap` and `Ensure`, LINQ query syntax and `ValueTask` async variants. Coming from CSharpFunctionalExtensions, most code moves over by swapping the `using`.
 
@@ -57,13 +57,14 @@ No exception is thrown: the first failure skips the remaining steps and lands in
 
 ## Performance
 
-.NET 10.0.7, Intel Core i9-12900HK, BenchmarkDotNet v0.15.4. Time and allocated bytes per operation, all libraries in the same run.
+.NET 10.0.13, BenchmarkDotNet v0.15.8, all libraries in the same run. Allocations are exact; time is the ratio against ZeroAlloc.Results.
 
 | Scenario | ZeroAlloc.Results | OneOf | ErrorOr | FluentResults |
 |---|---:|---:|---:|---:|
-| Failure construct | 0.3 ns / 0 B | 0.9 ns / 0 B | 63 ns / **184 B** | 87 ns / **272 B** |
-| Failure consume | 0.4 ns / 0 B | 0.9 ns / 0 B | 2.6 ns / 0 B | 214 ns / **240 B** |
-| Hot loop (100 iter, 1-in-3 fail) | **183 ns / 0 B** | 202 ns / 0 B | 7,693 ns / 6,256 B | 39,450 ns / 25,968 B |
+| Failure construct | 0 B | 0 B | **88 B** | **272 B** |
+| Failure consume | 0 B | 0 B | 0 B | **240 B** |
+| Hot loop (100 iter, 1-in-3 fail), time | **1.00** | 1.02 | 4.14 | 41.4 |
+| Hot loop, allocated | **0 B** | 0 B | 2,992 B | 25,968 B |
 
 The [performance page](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/blob/main/docs/performance.md) has every scenario, a comparison with CSharpFunctionalExtensions, a Result versus throw/catch benchmark and how to run them yourself.
 

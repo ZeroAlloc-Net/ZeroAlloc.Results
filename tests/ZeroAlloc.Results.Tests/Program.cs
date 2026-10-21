@@ -6,4 +6,6 @@ var switcher = BenchmarkSwitcher.FromTypes([
     typeof(CfeComparisonBenchmarks)
 ]);
 
-switcher.RunAll();
+// Run(args), not RunAll(): RunAll ignores the command line, so --filter, --launchCount and the
+// artifacts path would be dropped.
+switcher.Run(args);
