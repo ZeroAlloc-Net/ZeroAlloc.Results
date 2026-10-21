@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.5](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.4...v1.4.5) (2026-10-21)
+
+
+### Documentation
+
+* re-run the benchmarks pinned, with three launches ([#169](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/169)) ([35f8161](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/35f81616a68738e1c77f87b7d18cbd5416e7900e))
+
 ## [1.4.4](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.3...v1.4.4) (2026-10-16)
 
 
