@@ -53,10 +53,17 @@ jobs:
   publish:
     needs: resolve
     uses: ZeroAlloc-Net/.github/.github/workflows/publish.yml@main
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
     with:
       tag: ${{ needs.resolve.outputs.tag }}
       version: ${{ needs.resolve.outputs.version }}
       solution: ZeroAlloc.Results.slnx
       dry-run: ${{ inputs.dry-run }}
+      # Trusted publishing: set the NUGET_USER variable and add a trusted publisher policy on
+      # nuget.org for this repository and workflow to stop using the NUGET_API_KEY secret below.
+      nuget-user: ${{ vars.NUGET_USER }}
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
