@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <!-- Runs the tests on net9.0 and net11.0. The embedded benchmarks run on net9.0 only, as BenchmarkDotNet cannot run on net11.0, ZeroAlloc.Results#191; use dotnet run -f net9.0. -->
+    <TargetFrameworks>net9.0;net11.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>

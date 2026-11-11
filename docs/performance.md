@@ -119,7 +119,7 @@ Run the comparison benchmark yourself:
 
 ```bash
 dotnet run --project benchmarks/ZeroAlloc.Results.Benchmarks -c Release -- --filter "*ResultLibrariesBenchmark*"
-dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -- --filter "*CfeComparisonBenchmarks*"
+dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -f net9.0 -- --filter "*CfeComparisonBenchmarks*"
 ```
 
 ## Result vs throw/catch

@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <!-- BenchmarkDotNet 0.15.8 cannot run on net11.0; move this on once a stable release can, ZeroAlloc.Results#191. -->
     <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Optimize>true</Optimize>
