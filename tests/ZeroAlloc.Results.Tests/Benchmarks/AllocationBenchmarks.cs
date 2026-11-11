@@ -7,7 +7,7 @@ namespace ZeroAlloc.Results.Tests.Benchmarks;
 /// <summary>
 /// Verifies zero heap allocation for all core Result operations.
 /// All Gen0 values MUST be 0 — any non-zero value is a regression.
-/// Run with: dotnet run --project tests/ZeroAlloc.Results.Tests -c Release
+/// Run with: dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -f net9.0
 /// </summary>
 [MemoryDiagnoser]
 [SimpleJob]
