@@ -7,7 +7,7 @@
 [![AOT](https://img.shields.io/badge/AOT--Compatible-passing-brightgreen)](https://learn.microsoft.com/dotnet/core/deploying/native-aot/)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/MarcelRoozekrans?style=flat&logo=githubsponsors&color=ea4aaa&label=Sponsor)](https://github.com/sponsors/MarcelRoozekrans)
 
-Railway-style `Result<T, E>` for .NET 8, 9 and 10: errors as values instead of exceptions, 0 B allocated on success and failure alike, NativeAOT-ready.
+Railway-style `Result<T, E>` for .NET 8, 9, 10 and 11: errors as values instead of exceptions, 0 B allocated on success and failure alike, NativeAOT-ready.
 
 ## Why ZeroAlloc.Results
 
