@@ -23,7 +23,8 @@ Success and failure both allocate 0 B, and it must work under NativeAOT.
 ## Build and test
 
 Prerequisites: `global.json` pins SDK 11.0.100 (`rollForward: latestMinor`). Running the tests needs
-the .NET 9 and .NET 11 runtimes, one per test target framework (`net9.0`, `net11.0`).
+the .NET 9 and .NET 11 runtimes, one per test target framework (`net9.0`, `net11.0`). The benchmarks
+target `net10.0` and need the .NET 10 runtime.
 `dotnet tool restore` installs GitVersion.
 
 CI job `build` in `.github/workflows/ci.yml`:
