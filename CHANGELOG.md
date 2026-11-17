@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.5.0...v1.5.1) (2026-11-16)
+
+
+### Bug Fixes
+
+* embed PDBs so Go to Definition shows the package source ([#204](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/204)) ([ed9485f](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/ed9485ffa2f1cb0344c6cbf304b441e4e2b0dc26))
+
 ## [1.5.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.4.5...v1.5.0) (2026-11-11)
 
 
