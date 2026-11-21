@@ -102,24 +102,26 @@ ErrorOr and FluentResults allocate per-failure because their error types (`Error
 
 ### Head-to-head vs CSharpFunctionalExtensions (legacy comparison)
 
-Measured in the same session, on .NET 9.0, the framework the test project that hosts this benchmark targets. Ratio is CSharpFunctionalExtensions' mean time relative to ZeroAlloc.Results' for the same operation.
+Measured on .NET 10.0 on 2026-11-21, out of process in three launches pinned to two CPUs with `taskset`. Ratio is CSharpFunctionalExtensions' mean time relative to ZeroAlloc.Results' for the same operation; the Launch range column gives the lowest and highest of the three launches.
 
 | Category | CSharpFunctionalExtensions vs ZeroAlloc.Results | Launch range | Allocated |
 |----------|------------------:|--------------:|:---------:|
-| `Create_Success` | ZeroAlloc.Results below resolution ¹ | | **0 B** both |
-| `Create_Failure` | ZeroAlloc.Results below resolution ¹ | | **0 B** both |
-| `Map` | 1.00, parity | 0.88–1.16 | **0 B** both |
-| `Bind` | 0.91, CFE ~9% faster | 0.88–0.93 | **0 B** both |
-| `Match` | 0.90, CFE ~10% faster | 0.62–1.04 | **0 B** both |
-| `Chain` (Map+Bind+Match) | 0.96, parity | 0.88–1.02 | **0 B** both |
+| `Create_Success` | both below resolution ¹ | | **0 B** both |
+| `Create_Failure` | both below resolution ¹ | | **0 B** both |
+| `Map` | 0.65, CFE ~35% faster ² | 0.47–0.95 | **0 B** both |
+| `Bind` | 1.05, parity | 0.90–1.17 | **0 B** both |
+| `Match` | 1.10, ZeroAlloc.Results ~10% faster ² | 0.99–1.14 | **0 B** both |
+| `Chain` (Map+Bind+Match) | 1.01, parity | 0.92–1.09 | **0 B** both |
 
-¹ Creating a ZeroAlloc.Results result takes well under a nanosecond, below what BenchmarkDotNet resolves; CSharpFunctionalExtensions' is measurable, so ZeroAlloc.Results is the faster of the two by a margin this benchmark cannot size. An earlier run reported 8.7× and 4.8× from sub-nanosecond figures, and ZeroAlloc.Results ahead on `Map`, `Match` and `Chain`; with three pinned launches the two are at parity or CSharpFunctionalExtensions slightly ahead there.
+¹ On .NET 10 the JIT reduces creating a result to almost nothing in both libraries: each takes well under a nanosecond, below what BenchmarkDotNet resolves, so no ratio is given. On .NET 9, CSharpFunctionalExtensions' creation was still measurable.
+
+² `Map` and `Match` take under half a nanosecond in both libraries, so these ratios rest on very small absolute differences and the launches spread widely. `Chain`, which runs `Map`, `Bind` and `Match` together, is the more reliable figure: the two libraries are at parity.
 
 Run the comparison benchmark yourself:
 
 ```bash
 dotnet run --project benchmarks/ZeroAlloc.Results.Benchmarks -c Release -- --filter "*ResultLibrariesBenchmark*"
-dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -f net9.0 -- --filter "*CfeComparisonBenchmarks*"
+dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -f net10.0 -- --filter "*CfeComparisonBenchmarks*"
 ```
 
 ## Result vs throw/catch

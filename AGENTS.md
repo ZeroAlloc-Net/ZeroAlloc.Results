@@ -2,7 +2,7 @@
 
 `ZeroAlloc.Results` is a single NuGet package: railway-style `Result`, `Result<T>`, `Result<T, E>`,
 `UnitResult<E>` and `Maybe<T>` as `readonly struct`s, with combinators, LINQ query syntax and
-`ValueTask` variants. It is a pure runtime library (no source generator) for net8.0 to net11.0.
+`ValueTask` variants. It is a pure runtime library (no source generator) for net10.0 and net11.0.
 Success and failure both allocate 0 B, and it must work under NativeAOT.
 
 ## Layout
@@ -23,7 +23,7 @@ Success and failure both allocate 0 B, and it must work under NativeAOT.
 ## Build and test
 
 Prerequisites: `global.json` pins SDK 11.0.100 (`rollForward: latestMinor`). Running the tests needs
-the .NET 9 and .NET 11 runtimes, one per test target framework (`net9.0`, `net11.0`). The benchmarks
+the .NET 10 and .NET 11 runtimes, one per test target framework (`net10.0`, `net11.0`). The benchmarks
 target `net10.0` and need the .NET 10 runtime.
 `dotnet tool restore` installs GitVersion.
 
@@ -62,16 +62,15 @@ Inner loop, verified locally, not a CI job:
 
 ```bash
 dotnet build ZeroAlloc.Results.slnx -c Release
-dotnet test tests/ZeroAlloc.Results.Tests -c Release --no-build -f net9.0
+dotnet test tests/ZeroAlloc.Results.Tests -c Release --no-build -f net10.0
 dotnet test tests/ZeroAlloc.Results.Tests -c Release --no-build -f net11.0 --filter "FullyQualifiedName~CombinatorAllocationTests"
 ```
 
 ## Conventions and gotchas
 
-- Deviations from the org rules: the library targets `net8.0;net9.0;net10.0;net11.0`, but the test
-  project targets only `net9.0;net11.0`, and the benchmark project targets only `net10.0`.
-  BenchmarkDotNet 0.15.8 cannot run on net11.0 (issue #191), so the benchmarks embedded in the
-  test project run on net9.0 only: use `dotnet run -f net9.0`.
+- The library and the test project target `net10.0;net11.0`; the benchmark project targets only
+  `net10.0`. BenchmarkDotNet 0.15.8 cannot run on net11.0 (issue #191), so the benchmarks embedded
+  in the test project run on net10.0 only: use `dotnet run -f net10.0`.
 - The AOT smoke targets net11.0 and promotes `IL2026`, `IL2067`, `IL2075`, `IL2091`, `IL3050` and
   `IL3051` to errors. The library is pure runtime, so a reflection call anywhere in a `Result` or
   `Maybe` path breaks it.
