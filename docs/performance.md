@@ -102,7 +102,7 @@ ErrorOr and FluentResults allocate per-failure because their error types (`Error
 
 ### Head-to-head vs CSharpFunctionalExtensions (legacy comparison)
 
-Measured in the same session, on .NET 9.0, the framework the test project that hosts this benchmark targets. Ratio is CSharpFunctionalExtensions' mean time relative to ZeroAlloc.Results' for the same operation.
+Measured in the same session, on .NET 9.0, which the test project that hosts this benchmark targeted at the time; it now runs on .NET 10.0. Ratio is CSharpFunctionalExtensions' mean time relative to ZeroAlloc.Results' for the same operation.
 
 | Category | CSharpFunctionalExtensions vs ZeroAlloc.Results | Launch range | Allocated |
 |----------|------------------:|--------------:|:---------:|
@@ -119,7 +119,7 @@ Run the comparison benchmark yourself:
 
 ```bash
 dotnet run --project benchmarks/ZeroAlloc.Results.Benchmarks -c Release -- --filter "*ResultLibrariesBenchmark*"
-dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -f net9.0 -- --filter "*CfeComparisonBenchmarks*"
+dotnet run --project tests/ZeroAlloc.Results.Tests -c Release -f net10.0 -- --filter "*CfeComparisonBenchmarks*"
 ```
 
 ## Result vs throw/catch

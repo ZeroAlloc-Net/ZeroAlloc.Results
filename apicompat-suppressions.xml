@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- https://learn.microsoft.com/dotnet/fundamentals/package-validation/diagnostic-ids -->
+<!-- Intended breaks for the 2.0.0 major, against baseline 1.5.1. Generated with apicompat
+     package -generate-suppression-file; replace the contents at the next major. -->
+<Suppressions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- net8.0 and net9.0 went out of support on 2026-11-10; the package ships net10.0 and net11.0. -->
+  <Suppression>
+    <DiagnosticId>PKV006</DiagnosticId>
+    <Target>net8.0</Target>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>PKV006</DiagnosticId>
+    <Target>net9.0</Target>
+  </Suppression>
+</Suppressions>
