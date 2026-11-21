@@ -8,7 +8,7 @@ sidebar_position: 1
 
 # Getting Started
 
-ZeroAlloc.Results is a zero-allocation `Result<T, E>` library for .NET 9. Every type is a `readonly struct` — no heap allocation on any code path, no GC pressure, no boxing.
+ZeroAlloc.Results is a zero-allocation `Result<T, E>` library for .NET 10 and .NET 11. Every type is a `readonly struct` — no heap allocation on any code path, no GC pressure, no boxing.
 
 ## Installation
 
