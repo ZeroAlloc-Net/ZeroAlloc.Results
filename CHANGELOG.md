@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.5.1...v2.0.0) (2026-11-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* net8.0 and net9.0 assets are no longer shipped, so projects on .NET 8 or .NET 9 must move to .NET 10 or later or stay on ZeroAlloc.Results 1.x. See the migration notes in the release.
+
+### Features
+
+* target net10.0 and net11.0, drop net8.0 and net9.0 ([9602b27](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/9602b272aac7122d386935078a3898ac7d79c153))
+
+
+### Bug Fixes
+
+* correct the supported frameworks on the getting-started page, closes [#189](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/issues/189) ([9602b27](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/commit/9602b272aac7122d386935078a3898ac7d79c153))
+
 ## [1.5.1](https://github.com/ZeroAlloc-Net/ZeroAlloc.Results/compare/v1.5.0...v1.5.1) (2026-11-16)
 
 
